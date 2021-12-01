@@ -28,23 +28,26 @@ function createUser(PDO $dbcon, $user, $password){
     }
 }
 
-function checkUser(PDO $dbcon, $username, $passwd){
+/**
+ * Tarkistaa onko käyttäjä tietokannassa ja onko salasana validi
+ */
+function checkUser(PDO $dbcon, $user, $password){
 
     //Sanitoidaan. Lisätty tuntien jälkeen
-    $username = filter_var($username, FILTER_SANITIZE_STRING);
-    $passwd = filter_var($passwd, FILTER_SANITIZE_STRING);
+    $user = filter_var($user, FILTER_SANITIZE_STRING);
+    $password = filter_var($password, FILTER_SANITIZE_STRING);
 
     try{
-        $sql = "SELECT password FROM user WHERE username=?";  //komento, arvot parametreina
+        $sql = "SELECT password FROM tunnus WHERE user=?";  //komento, arvot parametreina
         $prepare = $dbcon->prepare($sql);   //valmistellaan
-        $prepare->execute(array($username));  //kysely tietokantaan
+        $prepare->execute(array($user));  //kysely tietokantaan
 
         $rows = $prepare->fetchAll(); //haetaan tulokset (voitaisiin hakea myös eka rivi fetch ja tarkistus)
 
         //Käydään rivit läpi (max yksi rivi tässä tapauksessa) 
         foreach($rows as $row){
             $pw = $row["password"];  //password sarakkeen tieto (hash salasana tietokannassa)
-            if( password_verify($passwd, $pw) ){  //tarkistetaan salasana tietokannan hashia vasten
+            if( password_verify($password, $pw) ){  //tarkistetaan salasana tietokannan hashia vasten
                 return true;
             }
         }
