@@ -29,13 +29,13 @@ if( isset( $requestHeaders['authorization'] ) ){
 
         try{
             //Tarkistetaan ja dekoodataan token. Jo ei validi, siirtyy catchiin.
-            $decoded = JWT::decode($token, new Key(base64_encode('mysecret'), 'HS256')  );
+            $decoded = JWT::decode($token, new Key(base64_encode('jokuhelppo'), 'HS256')  );
 
             //Onnistunut dekoodaus sisältää sub-kentän, jossa käyttäjänimi
-            $username = $decoded->sub;
+            $user = $decoded->sub;
 
             //Lähetetään clientille ykstyisen resurssi, koska oikeus tarkistettu
-            echo  json_encode( array("message"=>"This is your private resource ".$username) );
+            echo  json_encode( array("message"=>"This is your private resource ".$user) );
             
         }catch(Exception $e){
             echo  json_encode( array("message"=>"No access!!") );
