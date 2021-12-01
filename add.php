@@ -8,14 +8,14 @@ $password = filter_var($input->password, FILTER_SANITIZE_STRING);
 
 try{
     $dbcon = openDb();
-   // $hash_password = password_hash($password, PASSWORD_DEFAULT); //salasanan hash
+    $hash_password = password_hash($password, PASSWORD_DEFAULT); //salasanan hash
     $query = $dbcon->prepare('insert into tunnus (user, password) values (:user, :password)');
     $query->bindValue(':user',$user, PDO::PARAM_STR);
-    $query->bindValue(':password',$password, PDO::PARAM_STR);
+    $query->bindValue(':password',$hash_password, PDO::PARAM_STR);
     $query->execute();
     header('HTTP/1.1 200 OK');
     $data = array('id' => $dbcon->lastInsertId(),'user' => $user, 
-        'password' => $password);
+        'password' => $hash_password);
     print json_encode($data);
 }catch(PDOException $e){
     echo '<br>'.$e->getMessage();

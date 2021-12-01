@@ -1,8 +1,7 @@
 <?php
-session_start();
-require('headers.php');
-require('functions.php');
 
+//require('headers.php');
+require('functions.php');
 
 
 //Tarkistetaan tuleeko palvelimelle basic login tiedot (Authorization: Basic asfkjsafdjsajflkasj)
