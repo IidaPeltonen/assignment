@@ -38,7 +38,8 @@ if( isset( $requestHeaders['authorization'] ) ){
 
             $dbcon= openDb();
                 selectAsJson($dbcon, 'SELECT tunnus.user, etunimi, sukunimi, email from tiedot, tunnus 
-                WHERE tiedot.user = tunnus.user and ($user) = tiedot.user');
+                WHERE tiedot.user = tunnus.user ');
+               // and ($user) = tiedot.user
                 echo json_encode($user);
             }catch(Exception $e){
             echo  json_encode( array("message"=>"No access!!") );
