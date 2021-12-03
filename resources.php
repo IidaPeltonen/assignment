@@ -20,7 +20,6 @@ if( isset( $requestHeaders['authorization'] ) ){
     //Halkaistaan osiin Bearer ja token
     $auth_value = explode(' ', $requestHeaders['authorization']);
 
-
     //Tarkistetaan onko Bearer sanaa
     if( $auth_value[0] === 'Bearer' ){
 
@@ -37,19 +36,11 @@ if( isset( $requestHeaders['authorization'] ) ){
             //Lähetetään clientille ykstyisen resurssi, koska oikeus tarkistettu
             echo  json_encode( array("message"=>"This is your private resource ".$user) );
 
-            try {
-                $dbcon= openDb();
-                selectAsJson($dbcon, 'SELECT etunimi, sukunimi, email from tiedot, tunnus WHERE tiedot.id = tunnus.id AND 
-                $user = ');
-                }
-                catch (PDOException $pdoex) {
-                    echo  json_encode( array("message"=>"No access!!") );
-                }
+            $dbcon= openDb();
+                selectAsJson($dbcon, 'SELECT etunimi, sukunimi, email from tiedot, tunnus 
+                WHERE tiedot.id = tunnus.id and tunnus.user = "tiina"');
         }catch(Exception $e){
             echo  json_encode( array("message"=>"No access!!") );
-        } 
-
-    
+        }     
     }
-
 }
