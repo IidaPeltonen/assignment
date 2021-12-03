@@ -37,8 +37,9 @@ if( isset( $requestHeaders['authorization'] ) ){
             echo  json_encode( array("message"=>"This is your private resource ".$user));
 
             $dbcon= openDb();
-                selectAsJson($dbcon, 'SELECT etunimi, sukunimi, email from tiedot, tunnus 
-                WHERE tiedot.id = tunnus.id and tunnus.user =' .$user .'');
+                selectAsJson($dbcon, 'SELECT tunnus.user, etunimi, sukunimi, email from tiedot, tunnus 
+                WHERE tiedot.user === tunnus.user and tiedot.user =?');
+                echo json_encode($user);
             }catch(Exception $e){
             echo  json_encode( array("message"=>"Perkele!!") );
         }     

@@ -14,7 +14,7 @@ try{
     $query->bindValue(':password',$hash_password, PDO::PARAM_STR);
     $query->execute();
     header('HTTP/1.1 200 OK');
-    $data = array('id' => $dbcon->lastInsertId(),'user' => $user, 
+    $data = array($dbcon, 'user' => $user, 
         'password' => $hash_password);
     print json_encode($data);
 }catch(PDOException $e){
