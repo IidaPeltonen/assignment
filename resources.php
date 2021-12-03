@@ -34,13 +34,13 @@ if( isset( $requestHeaders['authorization'] ) ){
             $user = $decoded->sub;
 
             //Lähetetään clientille ykstyisen resurssi, koska oikeus tarkistettu
-            echo  json_encode( array("message"=>"This is your private resource ".$user) );
+            echo  json_encode( array("message"=>"This is your private resource ".$user));
 
             $dbcon= openDb();
                 selectAsJson($dbcon, 'SELECT etunimi, sukunimi, email from tiedot, tunnus 
-                WHERE tiedot.id = tunnus.id and tunnus.user = "tiina"');
-        }catch(Exception $e){
-            echo  json_encode( array("message"=>"No access!!") );
+                WHERE tiedot.id = tunnus.id and tunnus.user =' .$user .'');
+            }catch(Exception $e){
+            echo  json_encode( array("message"=>"Perkele!!") );
         }     
     }
 }
