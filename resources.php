@@ -36,16 +36,20 @@ if( isset( $requestHeaders['authorization'] ) ){
 
             //Lähetetään clientille ykstyisen resurssi, koska oikeus tarkistettu
             echo  json_encode( array("message"=>"This is your private resource ".$user) );
-            $dbcon = openDb();
-            selectAsJson($dbcon, ("select password from tunnus where user=".$user));
-            
+
+            try {
+                $dbcon= openDb();
+                selectAsJson($dbcon, 'SELECT etunimi, sukunimi, email from tiedot, tunnus WHERE tiedot.id = tunnus.id AND 
+                $user = ');
+                }
+                catch (PDOException $pdoex) {
+                    echo  json_encode( array("message"=>"No access!!") );
+                }
         }catch(Exception $e){
             echo  json_encode( array("message"=>"No access!!") );
-        }
+        } 
 
+    
     }
 
 }
-
-
-?>
