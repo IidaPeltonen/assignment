@@ -11,6 +11,8 @@ function openDb(): object {
     return $dbcon;
 }
 
+// *** EI TOIMI VIELÄ ***
+
 // function selectAsJson(object $dbcon, string $user): void {
 
 //     $user = filter_var($user, FILTER_SANITIZE_STRING);

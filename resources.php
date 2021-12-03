@@ -42,7 +42,7 @@ if (isset($requestHeaders['authorization'])) {
                 WHERE tiedot.user = tunnus.user and tiedot.user="'.$user.'"');
             // selectAsJson($dbcon, 'SELECT tunnus.user, etunimi, sukunimi, email from tiedot, tunnus 
             //     WHERE tiedot.user = tunnus.user and ($user) = tiedot.user');
-
+            // *** EI TOIMI VIELÄ ***
             // selectAsJson($dbcon, $user);
         } catch (Exception $e) {
             echo  json_encode(array("message" => "No access!!"));
