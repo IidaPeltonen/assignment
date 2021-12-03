@@ -11,6 +11,13 @@ function openDb(): object {
     return $dbcon;
 }
 
+function selectAsJson(object $dbcon,string $sql): void {
+    $query = $dbcon->query($sql);
+    $results = $query->fetchAll(PDO::FETCH_ASSOC);
+    header('HTTP/1.1 200 OK');
+    echo json_encode($results);
+}
+
 // Luo tietokantaan uuden käyttäjän ja hashaa salasanan
 function createUser(PDO $dbcon, $user, $password){
 
@@ -59,3 +66,28 @@ function checkUser(PDO $dbcon, $user, $password){
         echo '<br>'.$e->getMessage();
     }
 }
+
+/*function checkTiedot(PDO $dbcon, $user, $id){
+    try{
+        $sql = "SELECT * FROM tiedot WHERE ";  //komento, arvot parametreina
+        $prepare = $dbcon->prepare($sql);   //valmistellaan
+        $prepare->execute(array($user));  //kysely tietokantaan
+
+        $rows = $prepare->fetchAll(); //haetaan tulokset (voitaisiin hakea myös eka rivi fetch ja tarkistus)
+
+        //Käydään rivit läpi (max yksi rivi tässä tapauksessa) 
+        foreach($rows as $row){
+            $pw = $row["password"];  //password sarakkeen tieto (hash salasana tietokannassa)
+            if( password_verify($password, $pw) ){  //tarkistetaan salasana tietokannan hashia vasten
+                return true;
+            }
+        }
+
+        //Jos ei löytynyt vastaavuutta tietokannasta, palautetaan false
+        return false;
+
+    }catch(PDOException $e){
+        echo '<br>'.$e->getMessage();
+    }
+}*/
+

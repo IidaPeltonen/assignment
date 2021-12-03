@@ -36,6 +36,8 @@ if( isset( $requestHeaders['authorization'] ) ){
 
             //Lähetetään clientille ykstyisen resurssi, koska oikeus tarkistettu
             echo  json_encode( array("message"=>"This is your private resource ".$user) );
+            $dbcon = openDb();
+            selectAsJson($dbcon, ("select password from tunnus where user=".$user));
             
         }catch(Exception $e){
             echo  json_encode( array("message"=>"No access!!") );
