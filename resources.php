@@ -41,7 +41,7 @@ if( isset( $requestHeaders['authorization'] ) ){
                 WHERE tiedot.user === tunnus.user and ($user) = tiedot.user');
                 echo json_encode($user);
             }catch(Exception $e){
-            echo  json_encode( array("message"=>"Perkele!!") );
+            echo  json_encode( array("message"=>"No access!!") );
         }     
     }
 }
