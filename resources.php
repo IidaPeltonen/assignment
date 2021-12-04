@@ -35,11 +35,10 @@ if (isset($requestHeaders['authorization'])) {
             $user = $decoded->sub;
 
             //Lähetetään clientille ykstyisen resurssi, koska oikeus tarkistettu
-            echo  json_encode(array("message" => "This is your private resource " . $user));
+            //echo  json_encode(array("message" => "This is your private resource " . $user));
 
             $dbcon = openDb();
-            selectAsJson($dbcon, 'SELECT tunnus.user, etunimi, sukunimi, email from tiedot, tunnus 
-                WHERE tiedot.user = tunnus.user and tiedot.user="'.$user.'"');
+            selectAsJson($dbcon,$user);
             // selectAsJson($dbcon, 'SELECT tunnus.user, etunimi, sukunimi, email from tiedot, tunnus 
             //     WHERE tiedot.user = tunnus.user and ($user) = tiedot.user');
             // *** EI TOIMI VIELÄ ***
