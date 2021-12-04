@@ -11,18 +11,25 @@ function openDb(): object {
     return $dbcon;
 }
 
-// function selectAsJson(object $dbcon, string $user): void {
+/*  function selectAsJson(object $dbcon, string $sql, string $user): void {
+     $user = filter_var($user, FILTER_SANITIZE_STRING);
+     $query = $dbcon->query($sql);
+     $results = $query->fetchAll(PDO::FETCH_ASSOC);
+     echo json_encode($results);
+ } */
 
-//     $user = filter_var($user, FILTER_SANITIZE_STRING);
+/*  function selectAsJson(object $dbcon, string $user): void {
 
-//     $sql = 'SELECT tunnus.user, etunimi, sukunimi, email from tiedot, tunnus 
-//     WHERE tiedot.user = tunnus.user and ($user)=tiedot.user';
-//     var_dump($user);
-//     $query = $dbcon->query($sql);
-//     $results = $query->fetchAll(PDO::FETCH_ASSOC);
-//     header('HTTP/1.1 200 OK');
-//     echo json_encode($results);
-// }
+    $user = filter_var($user, FILTER_SANITIZE_STRING);
+
+    $sql = 'SELECT tunnus.user, etunimi, sukunimi, email from tiedot, tunnus 
+    WHERE tiedot.user = tunnus.user and ($user)=tiedot.user';
+    var_dump($user);
+    $query = $dbcon->query($sql);
+    $results = $query->fetchAll(PDO::FETCH_ASSOC);
+    header('HTTP/1.1 200 OK');
+    echo json_encode($results);
+} */
 
 function selectAsJson(object $dbcon,string $sql): void {
     $query = $dbcon->query($sql);
@@ -30,6 +37,7 @@ function selectAsJson(object $dbcon,string $sql): void {
     header('HTTP/1.1 200 OK');
     echo json_encode($results);
 }
+
 
 // Luo tietokantaan uuden käyttäjän ja hashaa salasanan
 function createUser(PDO $dbcon, $user, $password){
