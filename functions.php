@@ -11,25 +11,20 @@ function openDb(): object {
     return $dbcon;
 }
 
-/*  function selectAsJson(object $dbcon, string $sql, string $user): void {
-     $user = filter_var($user, FILTER_SANITIZE_STRING);
-     $query = $dbcon->query($sql);
-     $results = $query->fetchAll(PDO::FETCH_ASSOC);
-     echo json_encode($results);
- } */
+// *** EI TOIMI VIELÄ ***
 
-/*  function selectAsJson(object $dbcon, string $user): void {
+// function selectAsJson(object $dbcon, string $user): void {
 
-    $user = filter_var($user, FILTER_SANITIZE_STRING);
+//     $user = filter_var($user, FILTER_SANITIZE_STRING);
 
-    $sql = 'SELECT tunnus.user, etunimi, sukunimi, email from tiedot, tunnus 
-    WHERE tiedot.user = tunnus.user and ($user)=tiedot.user';
-    var_dump($user);
-    $query = $dbcon->query($sql);
-    $results = $query->fetchAll(PDO::FETCH_ASSOC);
-    header('HTTP/1.1 200 OK');
-    echo json_encode($results);
-} */
+//     $sql = 'SELECT tunnus.user, etunimi, sukunimi, email from tiedot, tunnus 
+//     WHERE tiedot.user = tunnus.user and ($user)=tiedot.user';
+//     var_dump($user);
+//     $query = $dbcon->query($sql);
+//     $results = $query->fetchAll(PDO::FETCH_ASSOC);
+//     header('HTTP/1.1 200 OK');
+//     echo json_encode($results);
+// }
 
 function selectAsJson(object $dbcon,string $sql): void {
     $query = $dbcon->query($sql);
@@ -37,7 +32,6 @@ function selectAsJson(object $dbcon,string $sql): void {
     header('HTTP/1.1 200 OK');
     echo json_encode($results);
 }
-
 
 // Luo tietokantaan uuden käyttäjän ja hashaa salasanan
 function createUser(PDO $dbcon, $user, $password){
@@ -93,9 +87,7 @@ function checkUser(PDO $dbcon, $user, $password){
         $sql = "SELECT * FROM tiedot WHERE ";  //komento, arvot parametreina
         $prepare = $dbcon->prepare($sql);   //valmistellaan
         $prepare->execute(array($user));  //kysely tietokantaan
-
         $rows = $prepare->fetchAll(); //haetaan tulokset (voitaisiin hakea myös eka rivi fetch ja tarkistus)
-
         //Käydään rivit läpi (max yksi rivi tässä tapauksessa) 
         foreach($rows as $row){
             $pw = $row["password"];  //password sarakkeen tieto (hash salasana tietokannassa)
@@ -103,12 +95,9 @@ function checkUser(PDO $dbcon, $user, $password){
                 return true;
             }
         }
-
         //Jos ei löytynyt vastaavuutta tietokannasta, palautetaan false
         return false;
-
     }catch(PDOException $e){
         echo '<br>'.$e->getMessage();
     }
 }*/
-
