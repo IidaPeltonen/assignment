@@ -90,20 +90,15 @@ function addTiedot(PDO $dbcon, $user) {
     $email = filter_var($input ->email, FILTER_SANITIZE_STRING);
 
 try{
-    $sql = "update tiedot set user=:?,etunimi=:?.etunimi, sukunimi=:?.sukunimi, email=:?.email 
-    where user=?";
+    $sql = "INSERT INTO tiedot (user,etunimi,sukunimi,email) VALUES (?,?,?,?)";
     $prepare = $dbcon->prepare($sql);
-    //$prepare->bindValue(':user',$user, PDO::PARAM_STR);
+    $prepare->bindValue(':user',$user, PDO::PARAM_STR);
     $prepare->bindValue(':etunimi',$etunimi, PDO::PARAM_STR);
     $prepare->bindValue(':sukunimi',$sukunimi, PDO::PARAM_STR);
     $prepare->bindValue(':email',$email, PDO::PARAM_STR);
-    $prepare->execute(array($user));  //kysely tietokantaan
+    $prepare->execute(array($user,$etunimi,$sukunimi,$email));  //kysely tietokantaan
     header('HTTP/1.1 200 OK');
-    $data = array(
-                            'etunimi' => $etunimi,
-                            'sukunimi' => $sukunimi,
-                            'email' => $email);
-    print json_encode($data);
+    echo "Data were succesfully insert into database!";
 }catch(PDOException $e){
     echo '<br>'.$e->getMessage();
 }
