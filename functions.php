@@ -27,18 +27,19 @@ function selectAsJson(PDO $dbcon,$user){
 }
 
 //funktio uuden käyttäjän luomiseen
-function createUser(PDO $dbcon, $user, $password){
-    $user = filter_var($user, FILTER_SANITIZE_STRING);
-    $password = filter_var($password, FILTER_SANITIZE_STRING);
+function createUser(PDO $dbcon){
+    $input = json_decode(file_get_contents('php://input'));
+    //Sanitoidaan
+    $user = filter_var($input->user, FILTER_SANITIZE_STRING);
+    $password = filter_var($input->password, FILTER_SANITIZE_STRING);
+
     try{
-        //salasanan hash
-        $hash_password = password_hash($password, PASSWORD_DEFAULT);
-        //sql-lause, muuttujat paramentreina
-        $sql = "INSERT IGNORE INTO tunnus VALUES (?,?)"; 
-        //kannan valmistelu
-        $prepare = $dbcon->prepare($sql); 
-        //suoritus, syötetään tiedot kantaan
-        $prepare->execute(array($user, $hash_password));  
+        $hash_password = password_hash($password, PASSWORD_DEFAULT); //salasanan hash
+        $sql = "INSERT IGNORE INTO tunnus VALUES (?,?)"; //komento, arvot parametreina
+        $prepare = $dbcon->prepare($sql); //valmistellaan
+        $prepare->execute(array($user, $hash_password));  //parametrit tietokantaan
+        $data = array('user' => $user, 'password' => $hash_password);
+        print json_encode($data);
     }catch(PDOException $e){
         echo '<br>'.$e->getMessage();
     }
@@ -55,7 +56,7 @@ function checkUser(PDO $dbcon, $user, $password){
         $prepare->execute(array($user)); 
         $rows = $prepare->fetchAll(); 
         foreach($rows as $row){
-            $pw = $row["password"];  /
+            $pw = $row["password"];  
             if( password_verify($password, $pw) ){ 
                 return true;
             }
